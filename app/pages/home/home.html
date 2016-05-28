@@ -2,15 +2,24 @@
   <ion-title>
     Home
   </ion-title>
+
+<ion-buttons start>
+  <button (click)="refresh()">
+    <ion-icon name="refresh"></ion-icon>
+  </button>
+</ion-buttons>
+
+<ion-buttons end>
+    <button (click)="add()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+</ion-buttons>
 </ion-navbar>
 
 <ion-content class="home">
-  <ion-card>
-    <ion-card-header>
-      Card Header
-    </ion-card-header>
-    <ion-card-content>
-      Hello World
-    </ion-card-content>
-  </ion-card>
+  <ion-list>
+    <ion-item *ngFor="let item of people">
+      {{item.firstname}} {{ item.lastname }}
+    </ion-item>
+  </ion-list>
 </ion-content>

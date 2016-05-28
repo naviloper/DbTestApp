@@ -13,25 +13,27 @@ export class MyApp {
   }
 
   constructor(platform) {
-    this.rootPage = HomePage;
     this.platform = platform;
     this.initializeApp();
+    this.rootPage = HomePage;
 
-    this.platform.ready().then(() => {
+    platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
+  });
+  }
+
+  initializeApp(){
+    this.platform.ready().then(() => {
+      this.storage = new Storage(SqlStorage);
+
+      this.storage.query('CREATE TABLE IF NOT EXISTS people (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname TEXT, lastname TEXT)').then((data) => {
+        console.log("TABLE CREATED -> " + JSON.stringify(data.res));
+      }, (error) => {
+        console.log("ERROR -> " + JSON.stringify(error.err));
+      });
     });
   }
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.storage = new Storage(SqlStorage);
-      this.storage.query('CREATE TABLE IF NOT EXISTS people (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname TEXT, lastname TEXT)').then((data) => {
-      console.log("TABLE CREATED -> " + JSON.stringify(data.res));
-  }, (error) => {
-      console.log("ERROR -> " + JSON.stringify(error.err));
-    });
-  });
-  }
 }
